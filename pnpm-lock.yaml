@@ -31,6 +31,9 @@ dependencies:
     version: 10.0.0
 
 devDependencies:
+  '@types/node':
+    specifier: ^22.7.5
+    version: 22.7.5
   '@webpack-cli/generators':
     specifier: ^3.0.7
     version: 3.0.7(prettier@3.3.3)(webpack-cli@5.1.4)(webpack@5.95.0)
