@@ -11,6 +11,15 @@ export const putController = (req: IncomingMessage, res: ServerResponse) => {
     const { username, age, hobbies } = JSON.parse(body);
     const id = url[2];
 
+    if (url[1] !== "users") {
+      createResponse(
+        res,
+        404,
+        "Invalid request : Requests to non-existing endpoints"
+      );
+      return;
+    }
+
     const user = users.find((user) => user.id === id);
 
     if (!user) {
@@ -31,7 +40,9 @@ export const putController = (req: IncomingMessage, res: ServerResponse) => {
     };
 
     const userIndex = users.findIndex((user) => user.id === id);
+
     users.splice(userIndex, 1, updatedUser);
+
     createResponse(res, 200, "User updated");
   });
 };

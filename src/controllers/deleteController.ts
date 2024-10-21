@@ -26,4 +26,10 @@ export const deleteController = (req: IncomingMessage, res: ServerResponse) => {
       createResponse(res, 404, "id === userId doesn't exist");
     }
   }
+
+  createResponse(
+    res,
+    404,
+    "Invalid request : Requests to non-existing endpoints"
+  );
 };

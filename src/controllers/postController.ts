@@ -19,6 +19,13 @@ export const postController = (req: IncomingMessage, res: ServerResponse) => {
     if (path === "users") {
       createNewUser(body);
       createResponse(res, 201, "User created");
+      return;
     }
+
+    createResponse(
+      res,
+      404,
+      "Invalid request : Requests to non-existing endpoints"
+    );
   });
 };

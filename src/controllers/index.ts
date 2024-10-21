@@ -1,3 +1,4 @@
+import { createResponse } from "../utils/createResponse";
 import { IncomingMessage } from "http";
 import { Methods, TypeResponse } from "../types/types";
 import { getController } from "./getControllers";
@@ -22,6 +23,4 @@ export const controller = (req: IncomingMessage, res: TypeResponse) => {
   if (method === Methods.DELETE) {
     return deleteController(req, res);
   }
-
-  return { message: "Invalid request" };
 };

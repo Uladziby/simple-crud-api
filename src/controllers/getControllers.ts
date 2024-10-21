@@ -1,5 +1,6 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { users } from "../models/users";
+import { createResponse } from "../utils/createResponse";
 
 export const getController = (
   url: string,
@@ -26,6 +27,11 @@ export const getController = (
       res.setHeader("Content-Type", "application/json");
       res.end(JSON.stringify(users));
     }
+  } else {
+    createResponse(
+      res,
+      404,
+      "Invalid request : Requests to non-existing endpoints"
+    );
   }
-  return null;
 };
