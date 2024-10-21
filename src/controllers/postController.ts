@@ -17,8 +17,8 @@ export const postController = (req: IncomingMessage, res: ServerResponse) => {
     }
 
     if (path === "users") {
-      createNewUser(body);
-      createResponse(res, 201, "User created");
+      const user = createNewUser(body);
+      createResponse(res, 201, `User created ${JSON.stringify(user)}`);
       return;
     }
 

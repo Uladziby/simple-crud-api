@@ -13,4 +13,6 @@ export const createNewUser = (user: string) => {
   };
 
   users.push(newUser);
+
+  return newUser;
 };
