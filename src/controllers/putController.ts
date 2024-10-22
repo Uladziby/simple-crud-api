@@ -9,9 +9,9 @@ export const putController = (req: IncomingMessage, res: ServerResponse) => {
   req.on("data", (chunk) => {
     body += chunk.toString();
     const { username, age, hobbies } = JSON.parse(body);
-    const id = url[2];
+    const id = url[3];
 
-    if (url[1] !== "users") {
+    if (url[2] !== "users") {
       createResponse(
         res,
         404,

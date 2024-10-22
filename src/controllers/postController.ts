@@ -1,10 +1,9 @@
 import { createNewUser } from "../handlers/createNewUser";
 import { IncomingMessage, ServerResponse } from "node:http";
-import { TypeResponse } from "types/types";
 import { createResponse } from "../utils/createResponse";
 
 export const postController = (req: IncomingMessage, res: ServerResponse) => {
-  const path = req.url!.split("/")[1];
+  const path = req.url!.split("/")[2];
   let body = "";
 
   req.on("data", (chunk) => {

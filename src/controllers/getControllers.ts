@@ -3,14 +3,18 @@ import { users } from "../models/users";
 import { createResponse } from "../utils/createResponse";
 
 export const getController = (
-  url: string,
+  req: IncomingMessage,
   res: ServerResponse<IncomingMessage> & {
     req: IncomingMessage;
   }
 ) => {
+  const { url } = req;
+
+  if (!url) return;
+
   const transformedUrl = url.split("/");
-  const path = transformedUrl[1];
-  const id = transformedUrl[2];
+  const path = transformedUrl[2];
+  const id = transformedUrl[3];
 
   if (path === "users") {
     if (id) {
