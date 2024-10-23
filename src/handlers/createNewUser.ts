@@ -1,5 +1,5 @@
-import { users } from "../models/users";
-import { User } from "types/types";
+import { User } from "../../src/types/types";
+import { usersDB } from "../models/users";
 import { v4 as uuidv4 } from "uuid";
 
 export const createNewUser = (user: string) => {
@@ -12,7 +12,7 @@ export const createNewUser = (user: string) => {
     hobbies,
   };
 
-  users.push(newUser);
+  usersDB.push(newUser);
 
   return newUser;
 };

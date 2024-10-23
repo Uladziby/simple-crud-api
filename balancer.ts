@@ -1,21 +1,24 @@
 import cluster from "node:cluster";
 import os from "os";
+import dotenv from "dotenv";
 import http, { IncomingMessage, ServerResponse } from "http";
-import { deleteController } from "controllers/deleteController";
-import { getController } from "controllers/getControllers";
-import { postController } from "controllers/postController";
-import { putController } from "controllers/putController";
-import { RequestMessage } from "types/types";
-import { createResponse } from "utils/createResponse";
+import { postController } from "./src/controllers/postController";
+import { getController } from "./src/controllers/getControllers";
+import { putController } from "./src/controllers/putController";
+import { deleteController } from "./src/controllers/deleteController";
+import { createResponse } from "./src/utils/createResponse";
+import { RequestMessage } from "./src/types/types";
 
-const numCPUs = os.cpus().length;
-
-const PORT = process.env.LOAD_BALANCER_PORT;
+dotenv.config();
+const PORT = process.env.LOAD_BALANCER_PORT || 4000;
 
 if (cluster.isPrimary) {
   console.log(`Primary ${process.pid} is running`);
+
+  const numCPUs = os.cpus().length;
+
   for (let i = 0; i < numCPUs - 1; i++) {
-    cluster.fork();
+    cluster.fork({ SERVER_PORT: `${+PORT + i + 1}` });
   }
 
   let workerIndex = 0;

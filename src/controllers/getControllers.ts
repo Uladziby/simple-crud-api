@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { users } from "../models/users";
+import { getUsersFromDB, usersDB } from "../models/users";
 import { createResponse } from "../utils/createResponse";
 
 export const getController = (
@@ -18,7 +18,7 @@ export const getController = (
 
   if (path === "users") {
     if (id) {
-      const user = users.find((user) => user.id === id);
+      const user = usersDB.find((user) => user.id === id);
       if (user) {
         res.statusCode = 200;
         res.end(JSON.stringify(user));
@@ -29,7 +29,7 @@ export const getController = (
     } else {
       res.statusCode = 200;
       res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify(users));
+      res.end(JSON.stringify(usersDB));
     }
   } else {
     createResponse(

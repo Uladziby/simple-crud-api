@@ -1,6 +1,6 @@
-import { User } from "types/types";
+import { User } from "@/src/types/types";
 
-export const users: User[] = [
+export const usersDB: User[] = [
   {
     id: "1",
     username: "John",
@@ -14,3 +14,7 @@ export const users: User[] = [
     hobbies: ["cooking", "swimming"],
   },
 ];
+
+export const getUsersFromDB = async () => {
+  return usersDB;
+};

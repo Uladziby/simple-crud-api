@@ -3,10 +3,6 @@ import { createServer } from "node:http";
 import * as dotenv from "dotenv";
 import { resolve } from "path";
 
-const hostname = "localhost";
-
-const usersServicePort = Number(process.env.USERS_SERVICE_PORT) || 4000;
-
 export const runServer = async () => {
   const server = createServer((req, res) => {
     res.setHeader("Content-Type", "text/plain");

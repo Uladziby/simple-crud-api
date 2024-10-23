@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse, STATUS_CODES } from "http";
-import { users } from "../models/users";
+import { usersDB } from "../models/users";
 import { createResponse } from "../utils/createResponse";
 import { StatusCodes } from "../types/types";
 
@@ -22,10 +22,10 @@ export const deleteController = (req: IncomingMessage, res: ServerResponse) => {
       return;
     }
 
-    const userIndex = users.findIndex((user) => user.id === id);
+    const userIndex = usersDB.findIndex((user) => user.id === id);
 
     if (userIndex !== -1) {
-      users.splice(userIndex, 1);
+      usersDB.splice(userIndex, 1);
       createResponse(res, StatusCodes.OK, "User deleted");
       return;
     } else {

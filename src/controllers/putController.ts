@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { users } from "../models/users";
+import { usersDB } from "../models/users";
 import { createResponse } from "../utils/createResponse";
 
 export const putController = (req: IncomingMessage, res: ServerResponse) => {
@@ -20,7 +20,7 @@ export const putController = (req: IncomingMessage, res: ServerResponse) => {
       return;
     }
 
-    const user = users.find((user) => user.id === id);
+    const user = usersDB.find((user) => user.id === id);
 
     if (!user) {
       createResponse(res, 404, "User not found");
@@ -39,9 +39,9 @@ export const putController = (req: IncomingMessage, res: ServerResponse) => {
       hobbies,
     };
 
-    const userIndex = users.findIndex((user) => user.id === id);
+    const userIndex = usersDB.findIndex((user) => user.id === id);
 
-    users.splice(userIndex, 1, updatedUser);
+    usersDB.splice(userIndex, 1, updatedUser);
 
     createResponse(res, 200, "User updated");
   });
