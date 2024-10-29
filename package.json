@@ -4,8 +4,8 @@
   "description": "My webpack project",
   "main": "index.ts",
   "scripts": {
-    "dev": "pnpm nodemon ./index.ts",
-    "start:prod": "npm run build && node dist/mian.js",
+    "dev": "npm nodemon ./index.ts",
+    "start:prod": "npm run build && node dist/main.js",
     "start:prod:multi": "npm run build && node dist/main.js",
     "build": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",

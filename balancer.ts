@@ -2,18 +2,14 @@ import cluster from "node:cluster";
 import os from "os";
 import dotenv from "dotenv";
 import http, { IncomingMessage, ServerResponse } from "http";
-import { postController } from "./src/controllers/postController";
-import { getController } from "./src/controllers/getControllers";
-import { putController } from "./src/controllers/putController";
-import { deleteController } from "./src/controllers/deleteController";
-import { createResponse } from "./src/utils/createResponse";
 import { RequestMessage } from "./src/types/types";
+import { controller } from "./src/controllers/index";
 
 dotenv.config();
 const PORT = process.env.LOAD_BALANCER_PORT || 4000;
 
 if (cluster.isPrimary) {
-  console.log(`Primary ${process.pid} is running`);
+  //console.log(`Primary ${process.pid} is running`);
 
   const numCPUs = os.cpus().length;
 
@@ -34,35 +30,23 @@ if (cluster.isPrimary) {
   http
     .createServer((req, res) => {
       const worker = getNextWorker();
-      worker!.send({ type: "request", request: req, response: res });
+
+      worker!.once("message", (message) => {
+        if (message.type === "response") {
+          res.writeHead(message.statusCode, message.headers);
+          res.end(message.body);
+        }
+      });
+
+      controller(req, res);
     })
     .listen(PORT, () => {
       console.log(`Load balancer listening on port ${PORT}`);
     });
 } else {
-  console.log(`Worker ${process.pid} started`);
-
   const server = http.createServer(
     (req: IncomingMessage, res: ServerResponse) => {
-      const { method, url } = req;
-
-      if (method === "GET" && url === "/api/users") {
-        getController(req, res);
-      } else if (method === "GET" && url?.startsWith("/api/users/")) {
-        getController(req, res);
-      } else if (method === "POST" && url === "/api/users") {
-        postController(req, res);
-      } else if (method === "PUT" && url?.startsWith("/api/users/")) {
-        putController(req, res);
-      } else if (method === "DELETE" && url?.startsWith("/api/users/")) {
-        deleteController(req, res);
-      } else {
-        createResponse(
-          res,
-          404,
-          "Invalid request : Requests to non-existing endpoints"
-        );
-      }
+      controller(req, res);
     }
   );
 

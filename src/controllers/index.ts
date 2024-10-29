@@ -7,6 +7,8 @@ import { putController } from "./putController";
 import { deleteController } from "./deleteController";
 
 export const controller = (req: IncomingMessage, res: TypeResponse) => {
+  console.log(`Request received: ${req.url}`, `Method: ${req.method}`);
+
   switch (req.method) {
     case Methods.GET:
       return getController(req, res);
